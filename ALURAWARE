@@ -1,0 +1,69 @@
+javascript:(function(){  
+  'use strict';  
+
+  const urlAtual = window.location.href;  
+  const botaoProximo = document.getElementsByClassName("bootcamp-next-button")[0];  
+  if (!botaoProximo) return;  
+
+  const partesDaURL = urlAtual.split("/");  
+
+  // Abre transcrição (se existir)
+  document.getElementById("transcription")?.click();  
+
+  // Marca checkboxes corretos
+  const listaAlternativas = document.querySelector(".alternativeList");  
+  if (listaAlternativas) {  
+    listaAlternativas.querySelectorAll("li[data-correct='true'] input[type='checkbox']")
+      .forEach(cb => !cb.checked && cb.click());  
+  }  
+
+  // Marca radios corretos
+  document.querySelectorAll(".alternativeList-item[data-correct='true'] input[type='radio']")
+    .forEach(radio => radio.click());  
+
+  // ❌ REMOVIDO: clique automático no botão "Enviar"
+  // document.getElementsByClassName("task-actions-button")[0]?.click();  
+
+  // Marca formulários especiais (se existirem)
+  const formulario = document.querySelector("form[data-gtm-form-interact-id='0']");  
+  if (formulario) {  
+    formulario.querySelectorAll("li[data-correct='true'] input[type='checkbox']")
+      .forEach(cb => !cb.checked && cb.click());  
+  }  
+
+  // Exercícios de blocos (marca mas não envia automaticamente)
+  const blocosOrigem = document.getElementById("sortBlocksOrigin");  
+  if (blocosOrigem) {  
+    blocosOrigem.querySelectorAll(".block").forEach(bloco => bloco.click());  
+    // ❌ REMOVIDO: clique automático em "Enviar blocos"
+    // document.getElementById("submitBlocks")?.click();  
+  }  
+
+  // ❌ REMOVIDO: clique automático no próximo exercício
+  // document.querySelector("a.task-actions-button-next")?.click();  
+
+  // Exercícios de link (não envia automaticamente, só prepara dados se quiser)
+  if (document.getElementById("project-link")) {  
+    const tituloTarefa = document.querySelector(".task-body-header-title small");  
+    let numeroSecao = tituloTarefa?.textContent.trim() || "";  
+    if (numeroSecao.startsWith("0")) {  
+      numeroSecao = numeroSecao.substring(1);  
+    }  
+
+    const cursoID = partesDaURL[4];  
+    const tarefaID = partesDaURL[partesDaURL.length - 1];  
+
+    console.log("Link do projeto pronto para envio:", {  
+      cursoID,  
+      numeroSecao,  
+      tarefaID,  
+      linkUrl: "https://github.com/undefined/"  
+    });  
+    // ❌ REMOVIDO: envio automático para a API  
+  }  
+
+  // ❌ REMOVIDO: clique automático após 5 segundos
+  // setTimeout(() => botaoProximo.click(), 5000);  
+
+  alert("✅ Respostas corretas foram marcadas! Agora clique em 'Enviar' manualmente.");  
+})();
