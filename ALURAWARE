@@ -1,19 +1,20 @@
-(function() {
-    'use strict';
+// Seleciona todas as alternativas
+const alternativas = document.querySelectorAll(".alternativeList-item");
 
-    // Seleciona todas as alternativas corretas (radio e checkbox)
-    const alternativasCorretas = document.querySelectorAll(".alternativeList-item[data-correct='true']");
+alternativas.forEach(li => {
+    const feedback = li.querySelector(".alternativeList-item-alternativeOpinion")?.innerText || "";
+    
+    // Checa se o feedback indica que é a resposta correta
+    if (feedback.includes("Muito bem")) {
+        const input = li.querySelector("input[type='radio'], input[type='checkbox']");
+        if (input && !input.checked) {
+            input.click(); // Marca a alternativa correta
+        }
+    }
+});
 
-    alternativasCorretas.forEach(item => {
-        const radio = item.querySelector("input[type='radio']");
-        const checkbox = item.querySelector("input[type='checkbox']");
-
-        if (radio) radio.checked = true;
-        if (checkbox) checkbox.checked = true;
-
-        // Destaque visual opcional para ver a resposta correta
-        item.style.backgroundColor = "rgba(0,255,0,0.2)";
-    });
-
-    console.log(`Marcadas ${alternativasCorretas.length} alternativas corretas.`);
-})();
+// Clica no botão de enviar/responder
+const botaoEnviar = document.getElementsByClassName("task-actions-button")[0];
+if (botaoEnviar) {
+    botaoEnviar.click();
+}
