@@ -1,20 +1,19 @@
 (function() {
-    // Seleciona todas as alternativas
-    const alternativas = document.querySelectorAll('.alternativeList-item');
+    'use strict';
 
-    alternativas.forEach(item => {
-        const isCorrect = item.getAttribute('data-correct') === 'true';
-        if (isCorrect) {
-            const input = item.querySelector('input[type="radio"]');
-            if (input) {
-                input.checked = true; // Marca a alternativa correta
-            }
-        }
+    // Seleciona todas as alternativas corretas (radio e checkbox)
+    const alternativasCorretas = document.querySelectorAll(".alternativeList-item[data-correct='true']");
+
+    alternativasCorretas.forEach(item => {
+        const radio = item.querySelector("input[type='radio']");
+        const checkbox = item.querySelector("input[type='checkbox']");
+
+        if (radio) radio.checked = true;
+        if (checkbox) checkbox.checked = true;
+
+        // Destaque visual opcional para ver a resposta correta
+        item.style.backgroundColor = "rgba(0,255,0,0.2)";
     });
 
-    // Tenta clicar no botão de enviar, se houver
-    const botaoEnviar = document.querySelector('button[type="submit"], .submit-button');
-    if (botaoEnviar) botaoEnviar.click();
-
-    console.log("Questionário preenchido automaticamente!");
+    console.log(`Marcadas ${alternativasCorretas.length} alternativas corretas.`);
 })();
